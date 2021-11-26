@@ -1,0 +1,37 @@
+<h1>Details of {{ people?.name }}</h1>
+
+<nz-tabset *ngIf="people">
+  <nz-tab nzTitle='Info'>
+    <ngvn-people-info [people]='people'></ngvn-people-info>
+  </nz-tab>
+  <nz-tab nzTitle='ID Card'>
+    <input
+      #fileInput
+      hidden
+      type="file"
+      (change)="onSelectImage($event); $any(fileInput).value = null"
+      accept="image/x-png,image/jpg,image/jpeg"
+    />
+    <button nz-button (click)="fileInput.click()">
+      <i nz-icon nzType="upload"></i>
+      Choose file to Upload
+    </button>
+    <br />
+    <div *ngIf='fileToUpload'>
+      {{fileToUpload.name}}
+      <button nz-button nzType="primary" nzDanger (click)='fileToUpload = null;'>
+        Delete
+      </button>
+    </div>
+    <br />
+    <div>
+      <button
+        [disabled]='!fileToUpload'
+        nz-button nzType="primary"
+        ngvnDebounceClick (debounceClick)='onUploadIdCard()'
+      >
+        Upload
+      </button>
+    </div>
+  </nz-tab>
+</nz-tabset>
